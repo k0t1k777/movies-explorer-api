@@ -3,42 +3,27 @@ const bcrypt = require('bcryptjs');
 const validator = require('validator');
 const UnauthorizedError = require('../errors/UnauthorizedError');
 
-// описание схемы пользователя
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    default: 'Жак-Ив Кусто',
+    required: [true, 'Заполните поле name'],
     minlength: [2, 'Имя пользователя не может быть короче 2 символов'],
     maxlength: [30, 'Имя пользователя не может быть длиннее 30 символов'],
-  },
-  about: {
-    type: String,
-    default: 'Исследователь',
-    minlength: [2, 'Имя пользователя не может быть короче 2 символов'],
-    maxlength: [30, 'Имя пользователя не может быть длиннее 30 символов'],
-  },
-  avatar: {
-    type: String,
-    default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
-    validate: {
-      validator: (v) => validator.isURL(
-        v,
-        {
-          protocols: ['http', 'https'],
-          require_protocol: true,
-        },
-      ),
-      message: () => 'Некоректный URL',
-    },
   },
   email: {
     type: String,
     required: [true, 'Заполните поле email'],
     unique: true,
+    // validate: {
+    //   validator: (v) => (
+    //     validator.isEmail(v)
+    //   ),
+    //   message: 'Введите корректный адрес почты',
+    // },
     validate: {
-      validator: (v) => (
-        validator.isEmail(v)
-      ),
+      validator(v) {
+        validator.isEmail(v);
+      },
       message: 'Введите корректный адрес почты',
     },
   },
@@ -61,7 +46,7 @@ userSchema.statics.findUserByCredentials = function findUserByCredentials(email,
           if (!matched) {
             throw new UnauthorizedError('Неправильные почта или пароль');
           }
-          return user; // теперь user доступен
+          return user;
         });
     });
 };

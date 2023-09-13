@@ -26,16 +26,16 @@ module.exports.login = (req, res, next) => {
 
 module.exports.createUser = (req, res, next) => {
   const {
-    name, about, avatar, email, password,
+    name, email, password,
   } = req.body;
   bcrypt.hash(password, 10)
     .then((hash) => User.create({
-      name, about, avatar, email, password: hash,
+      name, email, password: hash,
     }))
     .then((user) => res
       .status(201)
       .send({
-        name: user.name, about: user.about, avatar: user.avatar, email: user.email,
+        name: user.name, email: user.email,
       }))
     .catch((error) => {
       if (error.code === 11000) {
@@ -48,43 +48,9 @@ module.exports.createUser = (req, res, next) => {
     });
 };
 
-module.exports.getAllUsers = (req, res, next) => {
-  User.find({})
-    .then((users) => res.send(users))
-    .catch(next);
-};
-
-module.exports.getUserId = (req, res, next) => {
-  User.findById(req.params.userId)
-    .orFail(() => new NotFoundError('Пользователь с таким id не найден'))
-    .then((user) => {
-      res.send(user);
-    })
-    .catch((error) => {
-      if (error.name === 'CastError') {
-        next(new BadRequestError('Некорректный  id'));
-      } else {
-        next(error);
-      }
-    });
-};
-
-module.exports.updateAvatar = (req, res, next) => {
-  User.findByIdAndUpdate(req.user._id, { avatar: req.body.avatar }, { new: 'true', runValidators: true })
-    .orFail(() => new NotFoundError('Пользователь с таким id не найден'))
-    .then((user) => res.send(user))
-    .catch((error) => {
-      if (error.name === 'ValidationError') {
-        next(new BadRequestError(error.message));
-      } else {
-        next(error);
-      }
-    });
-};
-
-module.exports.updateProfile = (req, res, next) => {
-  const { name, about } = req.body;
-  User.findByIdAndUpdate(req.user._id, { name, about }, { new: 'true', runValidators: true })
+module.exports.updateInfoMe = (req, res, next) => {
+  const { name, email } = req.body;
+  User.findByIdAndUpdate(req.user._id, { name, email }, { new: 'true', runValidators: true })
     .orFail(() => new NotFoundError('Пользователь с таким id не найден'))
     .then((user) => res.send(user))
     .catch((error) => {

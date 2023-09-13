@@ -11,22 +11,13 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const {
   PORT = 3000,
   BASE_PATH = 'http://localhost',
-  MONGODB_URL = 'mongodb://127.0.0.1/mestodb',
+  MONGODB_URL = 'mongodb://127.0.0.1:27017/bitfilmsdb',
 } = process.env;
-
-// Слушаем 3000 порт
-// const { PORT = 3000, DB_URL = 'mongodb://127.0.0.1:27017/mestodb' } = process.env;
 
 const app = express();
 app.use(cors());
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
-});
-app.use(limiter);
-app.use(helmet());
-app.use(bodyParser.json()); // для собирания JSON-формата
-app.use(bodyParser.urlencoded({ extended: true })); // для приёма веб-страниц внутри POST-запроса
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 mongoose.connect(MONGODB_URL, {
   useNewUrlParser: true,
@@ -36,6 +27,13 @@ mongoose.connect(MONGODB_URL, {
 app.use(requestLogger);
 
 app.use('/', require('./routes/index'));
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+});
+app.use(limiter);
+app.use(helmet());
 
 app.use(errorLogger);
 
