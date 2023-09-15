@@ -1,11 +1,10 @@
 [![Tests](../../actions/workflows/tests-13-sprint.yml/badge.svg)](../../actions/workflows/tests-13-sprint.yml) [![Tests](../../actions/workflows/tests-14-sprint.yml/badge.svg)](../../actions/workflows/tests-14-sprint.yml)
-# Проект 1111
+# Проект Movies-explorer-api
 
-Ссылка на гитхаб репозитория https://github.com/k0t1k777/express-mesto-gha.git
+Ссылка на гитхаб репозитория https://github.com/k0t1k777/movies-explorer-api.git
 
-IP  130.193.54.168
-Frontend  https://...
-Backend  https://...
+IP 51.250.17.142
+Backend BigBaseMoviesBack.nomoredomainsicu.ru
 
 ## Директории
 
@@ -13,7 +12,7 @@ Backend  https://...
 `/controllers` — папка с файлами контроллеров пользователя и карточки   
 `/models` — папка с файлами описания схем пользователя и карточки
 `/errors` — папка с файлами описания возможных ошибок
-  `/middlewares` — папка с файлами мидлвара
+`/middlewares` — папка с файлами мидлвара
 
 Остальные директории вспомогательные, создаются при необходимости разработчиком
 
