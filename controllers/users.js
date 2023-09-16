@@ -56,6 +56,8 @@ module.exports.updateInfoMe = (req, res, next) => {
     .catch((error) => {
       if (error.name === 'ValidationError') {
         next(new BadRequestError(error.message));
+      } else if (error.code === 11000) {
+        next(new ConflictError('Пользователь с такой почтой уже зарегестрирован'));
       } else {
         next(error);
       }
