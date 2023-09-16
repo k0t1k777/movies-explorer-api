@@ -41,25 +41,17 @@ module.exports.createMovie = (req, res, next) => {
     });
 };
 
-module.exports.getMovie = (req, res, next) => {
-  Movie.find({})
-    .then((movies) => res.send(movies))
-    .catch(next);
-};
-
-// module.exports.deleteMovie = (req, res, next) => {
-//   const { movieId } = req.params;
-//   Movie.findById(movieId)
-//     .orFail(new NotFoundError('Фильм с таким id не найден'))
-//     .then((movie) => {
-//       if (!movie.owner.equals(req.user._id)) {
-//         return Promise.reject(new ForbiddenError('Нельзя удалять чужие фильмы'));
-//       }
-//       return Movie.deleteOne(movie)
-//         .then(() => res.send({ data: 'Удаление прошло успешно' }));
-//     })
+// module.exports.getMovie = (req, res, next) => {
+//   Movie.find({})
+//     .then((movies) => res.send(movies))
 //     .catch(next);
 // };
+
+module.exports.getMovie = (req, res, next) => {
+  Movie.find({ owner: req.user._id })
+    .then((movies) => res.send({ data: movies }))
+    .catch(next);
+};
 
 module.exports.deleteMovie = (req, res, next) => {
   const { movieId } = req.params;
