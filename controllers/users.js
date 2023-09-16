@@ -50,7 +50,7 @@ module.exports.createUser = (req, res, next) => {
 
 module.exports.updateInfoMe = (req, res, next) => {
   const { name, email } = req.body;
-  User.findByIdAndUpdate(req.user._id, { name, email }, { new: 'true', runValidators: true })
+  User.findByIdAndUpdate(req.user._id, { name, email }, { new: true, runValidators: true })
     .orFail(() => new NotFoundError('Пользователь с таким id не найден'))
     .then((user) => res.send(user))
     .catch((error) => {
