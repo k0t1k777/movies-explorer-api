@@ -3,7 +3,7 @@
 
 Ссылка на гитхаб репозитория https://github.com/k0t1k777/movies-explorer-api.git
 
-IP 51.250.106.206
+IP 158.160.23.247
 Backend https://BigBaseMoviesBack.nomoredomainsicu.ru
 
 ## Директории
