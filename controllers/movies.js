@@ -43,7 +43,7 @@ module.exports.createMovie = (req, res, next) => {
 
 module.exports.getMovie = (req, res, next) => {
   Movie.find({ owner: req.user._id })
-    .then((movies) => res.send({ data: movies }))
+    .then((movies) => res.send(movies))
     .catch(next);
 };
 

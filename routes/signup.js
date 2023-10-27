@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
-// const httpValidator = require('../utils/constans');
 
 const { createUser } = require('../controllers/users');
 
